@@ -21,18 +21,21 @@ void loop() {
   if (digitalRead(buttonPin) == HIGH && lastState == false) {
     if (collecting == false) {
       collecting = true;
+      Serial.print("Begin");
       digitalWrite(ledPin, HIGH);
     }else{
       collecting = false;
+      Serial.print("Stop");
       digitalWrite(ledPin, LOW);
     }
   }
 
-  //read from the analog sensor pin
-  int analog_sample = analogRead(sensorPin);
-
-  //or you can just send it directly as a 32 bit integer:
-  Serial.write(analog_sample);
+  if (collecting == true) {
+    //read from the analog sensor pin
+    int analog_sample = analogRead(sensorPin);
+    //or you can just send it directly as a 32 bit integer:
+    Serial.write(analog_sample);
+  }
 
   //update what the previous state of the button was. if it is low, let lastState be low. vice versa.
   if (digitalRead(buttonPin) == HIGH && lastState == false) {
